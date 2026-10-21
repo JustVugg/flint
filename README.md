@@ -1,8 +1,6 @@
-# Flint
+<img src="assets/brand/flint-horizontal.png" width="760" alt="Flint">
 
 **English** | [Italiano](README.it.md)
-
-<img src="assets/brand/flint-horizontal.png" width="760" alt="Flint">
 
 **Compact context. Keep the information.**
 
