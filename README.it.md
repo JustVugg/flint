@@ -16,6 +16,8 @@ tuo flusso di lavoro, indipendentemente dal modello o dal provider.
 **Python 3.11+ · Linux / WSL · motore basato sulla libreria standard ·
 nessun modello o server richiesto.**
 
+**[Installa Flint](#installazione) · [Scarica il file pronto](https://github.com/JustVugg/flint/raw/refs/heads/main/dist/flint.pyz)**
+
 ## Guardalo in azione
 
 ![Flint comprime JSON, ripristina i dati, modifica codice e richiama una decisione](assets/demo/flint-demo.gif)
@@ -51,18 +53,77 @@ originali conservati rimangono recuperabili. Sono operazioni diverse: un estratt
 selezionato non equivale all'intero file. La riscrittura opzionale della prosa
 è separata dalla codifica reversibile.
 
-## Inizia subito
+## Installazione
 
-Dalla cartella del repository:
+**Python 3.11+ su Linux o WSL. Nessuna build, pacchetto pip o modello da scaricare.**
+
+[Scarica lo ZIP](https://github.com/JustVugg/flint/archive/refs/heads/main.zip),
+estrailo ed esegui questo comando dalla cartella estratta:
 
 ```bash
-python3 -S dist/flint.pyz --help
+python3 install.py
+```
+
+Scegli Codex, Claude Code, entrambi o soltanto la CLI. L'installer copia il
+pacchetto pronto e configura le skill utente degli agenti scelti. Conserva le
+impostazioni esistenti e rifiuta di sostituire comandi estranei o skill modificate.
+
+Preferisci un solo file? [Scarica flint.pyz](https://github.com/JustVugg/flint/raw/refs/heads/main/dist/flint.pyz)
+ed esegui `python3 flint.pyz install`. Skill e licenze sono già incluse.
+
+Il comando viene installato in `~/.local/bin/flint`. Se la cartella non è nel
+PATH, l'installer mostra la riga `export PATH=...` da eseguire e aggiungere al
+profilo della shell. Le skill hanno un proprio comando di avvio e funzionano
+anche senza questa modifica al PATH. Riavvia l'agente per rilevare la skill,
+poi chiedigli di usare Flint per il tuo progetto.
+
+```bash
+flint doctor
+flint --workspace /percorso/del/progetto work open src/esempio.py
+```
+
+`doctor` controlla installazione, skill, compressione, recupero, modifiche e
+memoria in un workspace temporaneo. Non chiama modelli e non modifica il tuo
+progetto. La skill rende Flint disponibile all'agente: non intercetta
+automaticamente tutti gli strumenti e non cambia il modello.
+
+### Configurare, aggiornare o rimuovere
+
+```bash
+# Scegli un agente senza il menu interattivo.
+python3 install.py --agent codex
+
+# Aggiungi la skill soltanto a un progetto; per Claude Code usa --agent claude.
+flint setup --agent codex --project /percorso/del/progetto
+
+# Un altro agente compatibile con SKILL.md: indica la sua cartella delle skill.
+flint setup --skill-dir /percorso/alle/skill
+
+# Mostra le modifiche previste o controlla l'installazione.
+python3 install.py --agent both --dry-run
+flint doctor --json
+
+# Rimuovi Flint e le sue skill inalterate; conserva progetti e memorie.
+flint uninstall --yes
+```
+
+Per aggiornare, scarica il nuovo ZIP o `.pyz` ed esegui nuovamente l'installer.
+Vengono aggiornate anche le skill registrate. Flint non sovrascrive i file gestiti
+che hai modificato: salva le tue modifiche separatamente e ripristina l'originale
+prima di riprovare.
+`--prefix /percorso` sceglie un'altra cartella d'installazione. La configurazione
+utente rispetta `CODEX_HOME` e `CLAUDE_CONFIG_DIR`; quella di progetto usa
+`.agents/skills` per Codex e `.claude/skills` per Claude Code. Sono supportate
+anche cartelle delle skill personalizzate.
+
+Per provare Flint senza installarlo, dalla cartella del repository esegui:
+
+```bash
 python3 -S dist/flint.pyz --workspace . work open examples/hello.py
 ```
 
-Copia [flint.pyz](dist/flint.pyz) nell'ambiente del tuo agente e indica con
-`--workspace` il progetto su cui deve lavorare. Per usare direttamente i
-sorgenti, esegui `python3 bin/flint` con gli stessi argomenti.
+Gli esempi seguenti usano il pacchetto portabile; dopo l'installazione puoi
+sostituire `python3 -S dist/flint.pyz` con `flint`.
 
 ### Comprimi e ripristina JSON
 

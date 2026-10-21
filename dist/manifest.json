@@ -1,7 +1,7 @@
 {
   "source_sha256": {
-    "flint/__init__.py": "5eabd94b74d008648c3c179e21c323838873e2588b19cc23f142666ac32e8b34",
-    "flint/__main__.py": "634ab656d15d5e63e009a61d1bcf6d1ae63ec7e5ad88797c67e7af97b4294f66",
+    "flint/__init__.py": "40dc77e528c5f57bd037003aa31317efa7d821df245a28dfaee0c0a172065490",
+    "flint/__main__.py": "aed54a69191263cadb40a0d7e45869fb0a371814c2cffbdce39a0060f0034011",
     "flint/codebook.py": "7f42f1cc18149f982ca983f8cc21fec39b40721beedfc789f29d366a74277ad6",
     "flint/columns.py": "a388f3a4a727230220d1bdf7dadf54143e427d88fea518375ec744fea94a3e41",
     "flint/common.py": "1a2554b3ff0c4e8fba96cd83065fed2669c900c7f538739527b93587d44a4a92",
@@ -14,6 +14,7 @@
     "flint/files.py": "9286b8be7e9cbaf91dd1337f534102f95f1e2df06c11595936f06e4a0f368274",
     "flint/focus.py": "37b3dfd82b0b0c48b84a7ddc4b1dfdd2e1cd654e530ea398279bc2f588943033",
     "flint/memory.py": "dcbfeb105e62ba0be162b50ac55254d130789f922369a46fd5db46c6cc65a503",
+    "flint/onboarding.py": "6f9b2ba96e3fe926615c119668e912f3deeec42181c097e67c4319f38d78e7f3",
     "flint/pack.py": "d5fdf41d3d8e48d0a19d53af18f83b7d44be5ec4d1575aa722a9b383860f3ca9",
     "flint/present.py": "21b2b87f6ecacb107821cf5aa8d0ffc5485a869da5e016534e8ff1bc3329221f",
     "flint/shrink.py": "e8682f23244efc4a3f95c247ab433506fe32aae9c4ef7e38098c74dfddb84768",
@@ -24,10 +25,20 @@
     "flint/wire.py": "b423a02766ba55afa39bee0f19c7a8318537449d86108167589d3b797a331832",
     "flint/work.py": "de274dcd6c12d5ed1967433aa19a2bc1eefe08fe3a7612fa7cfb4f06e0f9f418"
   },
-  "artifact_sha256": "45847ad9c54afb05aebec4f142f8b4ca4248fdfa7b40000bd77c1efbcaf266c1",
-  "artifact_bytes": 217724,
+  "artifact_sha256": "da65bc365e6ee466a4b56e1bc99e862cfaa8d233288b0e62fc372c18c0519e7e",
+  "artifact_bytes": 261157,
   "python_required": "3.11+",
   "license": "Apache-2.0",
+  "skill_sha256": {
+    "SKILL.md": "824343cac58015231c7953dcb6dc62f8da02bc7850e53029702ef7a95858d9d4",
+    "references/advanced-context.md": "d400876dea825ea4ce69e17cb4a8da8d89b2b44f04b32b4dfa3853a147892ae3",
+    "references/batch-inspect.md": "93a908a3e4b87bfc85b80291cae9d34fb498022bff4af2705ccfbb9d921002e5",
+    "references/compact-views.md": "48b819aee7f5ada64ae5879bb2359cd0e3737d392390149b32edd8ba914be974",
+    "references/context-pack.md": "592ad180b5378aaa1c785cd593a8634ac1b662bc4286b14da0f398e96fefae17",
+    "references/edits.md": "fd91e542c4a5839952821aa33334e7d6d8c541cf64acaea79d6d499ee99e121f",
+    "references/memory-wire.md": "c90356f640528d80741b3965cff669b7f78a45f5c7022121759fe34dfe520d36",
+    "references/work-tickets.md": "b76e8b03f8a461c24b33796c2cc27e07a74d574de801cf5b33b2f5c259062c54"
+  },
   "license_sha256": {
     "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "NOTICE": "699ffae4e5ef648475f556ac029d92f2f04e2c98930c060e98dc90544a1b89dc"

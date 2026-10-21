@@ -18,6 +18,8 @@ def line_range(value):
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
+    if not argv:
+        argv = ['--help']
     # Exact canonical forms only. Everything else, including help, option
     # abbreviations and malformed flags, keeps argparse's original behavior.
     workspace = None
@@ -50,10 +52,11 @@ def _call_work(store):
 
 def _general_main(argv):
     import argparse
-    parser = argparse.ArgumentParser(description="Flint: local, recoverable file context")
+    parser = argparse.ArgumentParser(description="Flint: compact context, recoverable sources and memory for AI agents")
     parser.add_argument("--workspace", default=".")
     parser.add_argument("--version", action="version", version=f"Flint {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
+    _add_setup_parsers(sub)
     sub.add_parser("session", help="new receipt scope; also use after compaction")
     read = sub.add_parser("read")
     read.add_argument("path")
@@ -161,6 +164,9 @@ def _general_main(argv):
     args = parser.parse_args(argv)
     storage_errors = ()
     try:
+        if args.command in ('install', 'setup', 'doctor', 'uninstall'):
+            from .onboarding import run
+            return run(args)
         if args.command in ("encode", "decode", "code"):
             from pathlib import Path
             from .files import file_bytes
@@ -312,6 +318,25 @@ def _general_main(argv):
     except (FlintError, OSError, *storage_errors) as error:
         print(f"Flint refused: {error}", file=sys.stderr)
         return 2
+
+
+def _add_setup_parsers(sub):
+    for name, description in (('install', 'install the ready-to-run CLI and optional agent skills'),
+                              ('setup', 'connect the installed CLI to your agent'),
+                              ('doctor', 'check installation, skills and engine'),
+                              ('uninstall', 'remove unchanged installation files; keep project memories')):
+        parser = sub.add_parser(name, help=description, description=description)
+        parser.add_argument('--prefix', help='installation prefix (default: ~/.local or current installation)')
+        if name in ('install', 'setup'):
+            parser.add_argument('--agent', choices=('codex', 'claude', 'both', 'none'), help='agent to configure; interactive choice when omitted')
+            parser.add_argument('--project', metavar='DIR', help='install skills for this existing project instead of user scope')
+            parser.add_argument('--skill-dir', metavar='DIR', help='custom skills parent for another compatible agent')
+        if name != 'doctor':
+            parser.add_argument('--dry-run', action='store_true', help='show planned changes without writing files')
+        if name == 'doctor':
+            parser.add_argument('--json', action='store_true', help='machine-readable check results')
+        if name == 'uninstall':
+            parser.add_argument('--yes', action='store_true', help='confirm removal of unchanged owned files')
 
 
 if __name__ == "__main__":

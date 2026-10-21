@@ -1,13 +1,15 @@
 ---
 name: flint-context
-description: Use local Flint for exact source selections, revision-bound edits, acknowledged deltas, and source-linked memories. Applies when Flint is available in a repository.
+description: Use Flint to select exact source, make revision-bound edits, compress context and carry decisions across sessions. Applies to coding tasks when Flint is installed or available in the workspace.
 ---
 
 # Flint context
 
-Resolve Flint from this skill's location (`../../..`). Invoke
-`python3 /absolute/flint/bin/flint --workspace /target/repo COMMAND`.
-Keep operations local; this skill grants no network or publication permission.
+Invoke `flint --workspace /target/repo COMMAND`. An installed skill also has
+`scripts/flint`: use its absolute path when `flint` is not on the agent's PATH.
+For a repository checkout, use `python3 -S /absolute/flint/dist/flint.pyz`.
+Pass source paths relative to `--workspace`. Respect the user's permissions;
+this skill does not authorize external operations or change model settings.
 
 Choose source scope from the task:
 

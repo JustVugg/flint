@@ -15,7 +15,7 @@ def main():
     destination=ROOT/'dist';destination.mkdir(exist_ok=True)
     sources={p.relative_to(ROOT).as_posix():p.read_bytes() for p in sorted((ROOT/'flint').glob('*.py'))}
     hashes={name:hashlib.sha256(data).hexdigest() for name,data in sources.items()}
-    sources['__main__.py']=b'from flint.__main__ import main\nraise SystemExit(main())\n'
+    sources['__main__.py']=b'import sys\nif sys.version_info < (3, 11):\n    raise SystemExit("Flint requires Python 3.11 or newer.")\nfrom flint.__main__ import main\nraise SystemExit(main())\n'
     # Matching interpreters may load compiled code directly; other Python minor
     # versions fall back to the included source. Hash-based pyc, no host paths.
     for name,data in list(sources.items()):
@@ -29,6 +29,11 @@ def main():
                 sources['licenses/' + component + '/' + name] = path.read_bytes()
     for name in ('LICENSE', 'NOTICE'):
         sources[name] = (ROOT / name).read_bytes()
+    skill_root = ROOT / 'integrations/skills/flint-context'
+    skill_files = {path.relative_to(skill_root).as_posix(): path.read_bytes()
+                   for path in sorted(skill_root.rglob('*.md'))}
+    for name, data in skill_files.items():
+        sources['flint/data/skill/' + name] = data
     with zipfile.ZipFile(destination/'flint.pyz','w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
         for name,data in sorted(sources.items()):
             info=zipfile.ZipInfo(name,date_time=(2026,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED
@@ -39,6 +44,7 @@ def main():
     manifest={'source_sha256':hashes,'artifact_sha256':hashlib.sha256((destination/'flint.pyz').read_bytes()).hexdigest(),
               'artifact_bytes':(destination/'flint.pyz').stat().st_size,'python_required':'3.11+',
               'license':'Apache-2.0',
+              'skill_sha256':{name:hashlib.sha256(data).hexdigest() for name,data in skill_files.items()},
               'license_sha256':{name:hashlib.sha256(sources[name]).hexdigest() for name in ('LICENSE', 'NOTICE')},
               'method':'source zipapp with standard-library imports; no embedded interpreter or external dependencies'}
     (destination/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')

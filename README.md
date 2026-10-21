@@ -12,6 +12,8 @@ It works at the agent-tool layer: connect the CLI or JSON interface to your
 workflow, independently of your model or provider. **Python 3.11+ · Linux / WSL ·
 standard library core · no model or server required.**
 
+**[Install Flint](#install) · [Download the ready-to-run file](https://github.com/JustVugg/flint/raw/refs/heads/main/dist/flint.pyz)**
+
 ## See it work
 
 ![Flint compresses JSON, restores its data, edits code and recalls a decision](assets/demo/flint-demo.gif)
@@ -46,18 +48,76 @@ exact content. Source views select what to show, while stored originals remain
 recoverable. These are different operations: a selected excerpt is not the
 entire file. Optional prose rewriting is separate from reversible encoding.
 
-## Quick start
+## Install
 
-From the repository directory:
+**Python 3.11+ on Linux or WSL. No build, pip packages or model downloads.**
+
+[Download the ZIP](https://github.com/JustVugg/flint/archive/refs/heads/main.zip),
+extract it, and run this from the extracted folder:
 
 ```bash
-python3 -S dist/flint.pyz --help
+python3 install.py
+```
+
+Choose Codex, Claude Code, both, or CLI only. The installer copies the ready-made
+package and configures the selected agents' user skills. It preserves existing
+settings and refuses to replace unrelated commands or edited skills.
+
+Prefer one file? [Download flint.pyz](https://github.com/JustVugg/flint/raw/refs/heads/main/dist/flint.pyz)
+and run `python3 flint.pyz install`. The skill and licenses are included.
+
+The command is installed to `~/.local/bin/flint`. If that directory is not on
+your PATH, the installer prints the exact `export PATH=...` line to run and add
+to your shell profile. Agent skills include their own launcher and do not depend
+on that PATH change. Restart your agent to discover the skill, then ask it to
+use Flint for your project.
+
+```bash
+flint doctor
+flint --workspace /path/to/project work open src/example.py
+```
+
+`doctor` checks the installation, skill files, compression, recovery, editing
+and memory in a temporary workspace. It makes no model requests and does not
+change your project. Skill installation makes Flint available to the agent;
+it does not automatically intercept every tool call or change your model.
+
+### Configure, update or remove
+
+```bash
+# Select an agent without the interactive menu.
+python3 install.py --agent codex
+
+# Add a skill for just one project; use --agent claude for Claude Code.
+flint setup --agent codex --project /path/to/project
+
+# Another agent that supports SKILL.md: choose its skills directory.
+flint setup --skill-dir /path/to/agent/skills
+
+# Inspect changes or diagnose an installation.
+python3 install.py --agent both --dry-run
+flint doctor --json
+
+# Remove Flint and its unchanged skills; preserve project files and memories.
+flint uninstall --yes
+```
+
+Update by downloading the new ZIP or `.pyz` and running the installer again.
+Registered skills update with it. Flint refuses to overwrite edited managed
+files: save your edits separately and restore the original before retrying.
+`--prefix /path` selects a
+different installation directory. User-scope setup respects `CODEX_HOME` and
+`CLAUDE_CONFIG_DIR`; project-scope setup uses `.agents/skills` for Codex and
+`.claude/skills` for Claude Code. Custom skill directories are also supported.
+
+To try Flint without installing anything, from this repository run:
+
+```bash
 python3 -S dist/flint.pyz --workspace . work open examples/hello.py
 ```
 
-Copy [flint.pyz](dist/flint.pyz) into your agent's environment, then point
-`--workspace` at the project it should work on. To use the source directly,
-run `python3 bin/flint` with the same arguments.
+The examples below use the portable package; installed users can replace
+`python3 -S dist/flint.pyz` with `flint`.
 
 ### Compress and restore JSON
 
