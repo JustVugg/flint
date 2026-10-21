@@ -24,8 +24,13 @@
     "flint/wire.py": "b423a02766ba55afa39bee0f19c7a8318537449d86108167589d3b797a331832",
     "flint/work.py": "de274dcd6c12d5ed1967433aa19a2bc1eefe08fe3a7612fa7cfb4f06e0f9f418"
   },
-  "artifact_sha256": "40a03248ea86a67db569ef2f9199291235def17b98a9f1dfb33a645516fb03eb",
-  "artifact_bytes": 213289,
+  "artifact_sha256": "45847ad9c54afb05aebec4f142f8b4ca4248fdfa7b40000bd77c1efbcaf266c1",
+  "artifact_bytes": 217724,
   "python_required": "3.11+",
+  "license": "Apache-2.0",
+  "license_sha256": {
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "NOTICE": "699ffae4e5ef648475f556ac029d92f2f04e2c98930c060e98dc90544a1b89dc"
+  },
   "method": "source zipapp with standard-library imports; no embedded interpreter or external dependencies"
 }

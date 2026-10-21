@@ -1,0 +1,12 @@
+Flint
+Copyright 2026 JustVugg
+
+Flint is licensed under the Apache License, Version 2.0.
+
+The prose-compression and TOON modules include Python adaptations of
+components from Caveman, Copyright 2026 Julius Brussee. Their attribution,
+license and retained upstream notices are in vendor/caveman-shrink/ and
+vendor/caveman-toon/. Packaged copies are under licenses/ in flint.pyz.
+
+The Micro 5 font is distributed under the SIL Open Font License 1.1;
+see assets/fonts/OFL.txt for its copyright and license terms.

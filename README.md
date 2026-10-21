@@ -169,5 +169,10 @@ Rebuild the package without downloading dependencies:
 python3 tools/package.py
 ```
 
+## License
+
+Flint is licensed under the [Apache License 2.0](LICENSE). See [NOTICE](NOTICE)
+for attribution. Both files are included in the ready-to-run package.
+
 Third-party notices and licenses are retained in `vendor/` and in the package.
 Micro 5 includes its [OFL license](assets/fonts/OFL.txt).

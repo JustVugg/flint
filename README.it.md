@@ -180,6 +180,11 @@ Ricostruisci il pacchetto senza scaricare dipendenze:
 python3 tools/package.py
 ```
 
+## Licenza
+
+Flint è distribuito con [licenza Apache 2.0](LICENSE). Le attribuzioni sono
+riportate in [NOTICE](NOTICE). Entrambi i file sono inclusi nel pacchetto pronto.
+
 Le attribuzioni e le licenze dei componenti adattati sono conservate in
 `vendor/` e nel pacchetto. Micro 5 include la propria
 [licenza OFL](assets/fonts/OFL.txt).

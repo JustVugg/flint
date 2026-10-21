@@ -27,6 +27,8 @@ def main():
             path = ROOT / 'vendor' / component / name
             if path.is_file():
                 sources['licenses/' + component + '/' + name] = path.read_bytes()
+    for name in ('LICENSE', 'NOTICE'):
+        sources[name] = (ROOT / name).read_bytes()
     with zipfile.ZipFile(destination/'flint.pyz','w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
         for name,data in sorted(sources.items()):
             info=zipfile.ZipInfo(name,date_time=(2026,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED
@@ -36,6 +38,8 @@ def main():
             raise RuntimeError('invalid package')
     manifest={'source_sha256':hashes,'artifact_sha256':hashlib.sha256((destination/'flint.pyz').read_bytes()).hexdigest(),
               'artifact_bytes':(destination/'flint.pyz').stat().st_size,'python_required':'3.11+',
+              'license':'Apache-2.0',
+              'license_sha256':{name:hashlib.sha256(sources[name]).hexdigest() for name in ('LICENSE', 'NOTICE')},
               'method':'source zipapp with standard-library imports; no embedded interpreter or external dependencies'}
     (destination/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     print(json.dumps(manifest,indent=2))
