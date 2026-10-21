@@ -1,0 +1,53 @@
+{
+  "kind": "optional-local-native-copy-accelerator",
+  "source": "native/flint_copy.c",
+  "source_sha256": "89cc6d1ae4d4e299789e94551b3081db873a40ccf65a744c906dd77c7765db7a",
+  "source_paths": "relative to repository root",
+  "compiler": "/usr/bin/gcc",
+  "artifacts": {
+    "flint-native": {
+      "sha256": "f662fc589000c125e2720dee6ed1895ce14b5c5210bc2354b9a0faf6767da721",
+      "bytes": 17008,
+      "flags": [
+        "-std=c11",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Wconversion",
+        "-Werror",
+        "-fstack-protector-strong",
+        "-D_FORTIFY_SOURCE=2"
+      ],
+      "compiler_tree_peak_rss_mib": 30.3671875,
+      "compiler_tree_cpu_seconds": 0.121879
+    },
+    "flint-native-ubsan": {
+      "sha256": "7fbf950aa9b86a72a9462328723695759d10038b535aaf922d05946536382313",
+      "bytes": 28752,
+      "flags": [
+        "-std=c11",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Wconversion",
+        "-Werror",
+        "-fstack-protector-strong",
+        "-D_FORTIFY_SOURCE=2",
+        "-fsanitize=undefined",
+        "-fno-sanitize-recover=all"
+      ],
+      "compiler_tree_peak_rss_mib": 33.6796875,
+      "compiler_tree_cpu_seconds": 0.144923
+    }
+  },
+  "elapsed_seconds": 0.37930051307193935,
+  "limits": {
+    "compiler_as_mib": 128,
+    "supervisor_as_mib": 96,
+    "logical_cpus": 1,
+    "compiler_children_allowed": true,
+    "runtime_children_allowed": false
+  },
+  "network": false,
+  "default_python_cli_uses_native": false
+}

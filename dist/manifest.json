@@ -1,0 +1,31 @@
+{
+  "source_sha256": {
+    "flint/__init__.py": "5eabd94b74d008648c3c179e21c323838873e2588b19cc23f142666ac32e8b34",
+    "flint/__main__.py": "634ab656d15d5e63e009a61d1bcf6d1ae63ec7e5ad88797c67e7af97b4294f66",
+    "flint/codebook.py": "7f42f1cc18149f982ca983f8cc21fec39b40721beedfc789f29d366a74277ad6",
+    "flint/columns.py": "a388f3a4a727230220d1bdf7dadf54143e427d88fea518375ec744fea94a3e41",
+    "flint/common.py": "1a2554b3ff0c4e8fba96cd83065fed2669c900c7f538739527b93587d44a4a92",
+    "flint/compact.py": "60c17206e0e2196a932d6ee48d7c3a2c8475f323def569bad68370d5637fc584",
+    "flint/copy.py": "fe500e5344fe80d74c81513a6968a1c630ba820dc31d8c6c92a5bcb7814661e8",
+    "flint/delta.py": "942b9b2048fea46cb5b6b999f4bd973cd87ef18335b8844cbb7e5dde3360a44a",
+    "flint/drafts.py": "120e32c407e682afc0dd72652ca14ba5427a1b643847d39bfd7769abf64e6e3b",
+    "flint/edit.py": "81e0124144a7d8e4bd5928b65de464fc7620bfa27fdfec0552f7cf743ac58650",
+    "flint/encode.py": "8d0f6e4144c070f73e557bfaabd895317ab0d4e7edc2eb7349ac7049b406fafd",
+    "flint/files.py": "9286b8be7e9cbaf91dd1337f534102f95f1e2df06c11595936f06e4a0f368274",
+    "flint/focus.py": "37b3dfd82b0b0c48b84a7ddc4b1dfdd2e1cd654e530ea398279bc2f588943033",
+    "flint/memory.py": "dcbfeb105e62ba0be162b50ac55254d130789f922369a46fd5db46c6cc65a503",
+    "flint/pack.py": "d5fdf41d3d8e48d0a19d53af18f83b7d44be5ec4d1575aa722a9b383860f3ca9",
+    "flint/present.py": "21b2b87f6ecacb107821cf5aa8d0ffc5485a869da5e016534e8ff1bc3329221f",
+    "flint/shrink.py": "e8682f23244efc4a3f95c247ab433506fe32aae9c4ef7e38098c74dfddb84768",
+    "flint/store.py": "ed6501b9a62485c3d6a8a9b38e4931853716ccf3213ade111397da8c1bf64018",
+    "flint/survey.py": "1a9a9ea33a409d765eaf5bd683bcc57ca13f30dc53946bf6e1f794d52bab6646",
+    "flint/text.py": "18f61b0e47675cf1c73da17af9181269b41ef655345814794245440eebb3be1e",
+    "flint/toon.py": "bbf23786b53e01e115457e59e2f46e3d698ea8c0c2e3d4a7a452792baa2ccca5",
+    "flint/wire.py": "b423a02766ba55afa39bee0f19c7a8318537449d86108167589d3b797a331832",
+    "flint/work.py": "de274dcd6c12d5ed1967433aa19a2bc1eefe08fe3a7612fa7cfb4f06e0f9f418"
+  },
+  "artifact_sha256": "40a03248ea86a67db569ef2f9199291235def17b98a9f1dfb33a645516fb03eb",
+  "artifact_bytes": 213289,
+  "python_required": "3.11+",
+  "method": "source zipapp with standard-library imports; no embedded interpreter or external dependencies"
+}

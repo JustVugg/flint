@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/juliusbrussee/caveman",
+  "commit": "d262ab3882952a59312ff3537cd86d894523c5ab",
+  "repository_version": "4.0.1",
+  "component": "src/mcp-servers/caveman-shrink/compress.js",
+  "component_version": "0.1.1",
+  "sha256": "5a7dee8d9e7824a87b8b796c64c0995427a6216ed86499ab2fa0dc22ca745d69",
+  "modified": false,
+  "scope": "Pure JavaScript prose compressor only; not the Go engine or full MCP proxy."
+}

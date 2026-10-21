@@ -1,0 +1,19 @@
+{
+  "name": "Flint",
+  "wordmark": "flint",
+  "font": "Micro 5 Regular",
+  "font_source": "https://github.com/google/fonts/tree/main/ofl/micro5",
+  "font_sha256": "08a08c0d10129d2ecd869ff2f8914fcbf32487d3cbee3568b2a2957866dfdac8",
+  "font_license": "SIL Open Font License 1.1; ../fonts/OFL.txt",
+  "mascot_source": "../logo.png",
+  "mascot_sha256": "16989e3acdaddb556fbdf80c97c374f559e2dc194666403ee1671431f6a7d519",
+  "method": "Unmodified local font outlines and approved mascot, rendered to PNG; source mascot unchanged",
+  "outputs": {
+    "favicon.png": "15ef6d5360c5dfd19d1cba26116ff61fe21d0337832e88889bf8abbd9ffd2a59",
+    "flint-avatar.png": "2a4d985f26539763e86227324498a04f8a95de8cb0d9599a4aed99927127a0f4",
+    "flint-horizontal.png": "aded73fe165a8a0a6d9fb820a0869bae6d1a1946a469a8a49eaf966c7e7b7799",
+    "flint-stacked.png": "85f9a4dda2ffc28ac58c02f3037bc8431a45a18f05f2d98510348504d4b73eea",
+    "flint-wordmark-white.png": "d7926d4c735669dc8d2bc46459aaf7510ec2eda2e9aadbfd48613929494ee529",
+    "flint-wordmark.png": "291f9c9c5b72bb0bf5e0e0a09b7b3d340ed0cf41cb834eb7e9cfb7a28cd605d5"
+  }
+}

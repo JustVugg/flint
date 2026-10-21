@@ -1,0 +1,4 @@
+Project decisions
+The application uses Python's standard library.
+Public function names remain stable when changing their implementation.
+Read the current source before editing a file after a context handoff.

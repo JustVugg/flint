@@ -1,0 +1,7 @@
+Flint includes a bounded Python adaptation of the scalar and tabular TOON rules
+from Caveman by Julius Brussee and contributors (Apache-2.0), in flint/toon.py.
+Source: https://github.com/juliusbrussee/caveman
+Commit: d262ab3882952a59312ff3537cd86d894523c5ab (v4.0.1).
+Original Go sources are retained here unchanged for review and attribution.
+Python implementation adds explicit bounds and a smaller supported subset.
+TOON is an existing format; Flint does not claim to have invented it.
