@@ -1,0 +1,99 @@
+{
+  "metrics": {
+    "input_bytes": 1226,
+    "encoded_payload_bytes": 435,
+    "format_report_bytes": 64,
+    "total_output_bytes": 499,
+    "reduction_including_report_percent": 59.3,
+    "records_restored": 12,
+    "json_values_preserved": true,
+    "input_already_minified": true,
+    "scope": "Illustrative JSON example; bytes, not model tokens or general savings."
+  },
+  "calls": [
+    {
+      "args": [
+        "encode",
+        "examples/records.json",
+        "--format",
+        "columns",
+        "--report"
+      ],
+      "stdin": "",
+      "stdout": "{\"flint\":\"columns/1\",\"expand\":\"Replace data at path by rows from columns. at selects present rows; except overrides values; order permutes column indices.\",\"data\":null,\"tables\":[{\"path\":[],\"rows\":12,\"columns\":{\"service\":{\"constant\":\"checkout\"},\"region\":{\"constant\":\"eu-west-1\"},\"status\":{\"constant\":\"healthy\"},\"latency_ms\":{\"values\":[18,21,17,24,19,20,16,22,18,23,17,19]},\"request_id\":{\"prefix\":\"req-\",\"start\":1,\"step\":1,\"width\":3}}}]}",
+      "stderr": "{\"format\":\"json-columns\",\"input_bytes\":1226,\"output_bytes\":435}\n",
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "decode",
+        "packed.txt",
+        "--format",
+        "json-columns"
+      ],
+      "stdin": "",
+      "stdout": "[{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":18,\"request_id\":\"req-001\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":21,\"request_id\":\"req-002\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":17,\"request_id\":\"req-003\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":24,\"request_id\":\"req-004\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":19,\"request_id\":\"req-005\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":20,\"request_id\":\"req-006\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":16,\"request_id\":\"req-007\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":22,\"request_id\":\"req-008\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":18,\"request_id\":\"req-009\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":23,\"request_id\":\"req-010\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":17,\"request_id\":\"req-011\"},{\"service\":\"checkout\",\"region\":\"eu-west-1\",\"status\":\"healthy\",\"latency_ms\":19,\"request_id\":\"req-012\"}]",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "work",
+        "open",
+        "examples/hello.py"
+      ],
+      "stdin": "",
+      "stdout": "W1 e1 source\ndef greet(name):\n    return f\"Hello, {name}!\"\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "work",
+        "call"
+      ],
+      "stdin": "{\"op\": \"edit\", \"ref\": \"e1\", \"edits\": [[2, 1, \"    return f\\\"Hi, {name}!\\\"\\n\"]]}",
+      "stdout": "W1 e2 applied\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "work",
+        "show",
+        "e2"
+      ],
+      "stdin": "",
+      "stdout": "W1 e2 candidate\ndef greet(name):\n    return f\"Hi, {name}!\"\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "memory",
+        "remember",
+        "examples/decisions.txt",
+        "--key",
+        "project-decisions"
+      ],
+      "stdin": "",
+      "stdout": "m1\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "memory",
+        "recall",
+        "project decisions",
+        "--budget",
+        "4096",
+        "--compact"
+      ],
+      "stdin": "",
+      "stdout": "\"project-decisions\"\nProject decisions\nThe application uses Python's standard library.\nPublic function names remain stable when changing their implementation.\nRead the current source before editing a file after a context handoff.\n",
+      "stderr": "",
+      "exit_code": 0
+    }
+  ]
+}

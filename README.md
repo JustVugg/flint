@@ -1,77 +1,111 @@
 # Flint
 
+**English** | [Italiano](README.it.md)
+
 <img src="assets/brand/flint-horizontal.png" width="760" alt="Flint">
 
-**Il contesto giusto. La versione giusta. Le decisioni che restano.**
+**Compact context. Keep the information.**
 
-Flint è un toolkit locale per agenti AI che lavorano su codice e documenti.
-Permette di leggere soltanto il contenuto necessario, applicare modifiche alla
-versione effettivamente letta e recuperare decisioni dopo un cambio di contesto.
+Flint gives AI agents tools to compress code, JSON and text, keep useful context,
+remember decisions and recover original content. Focused reads and edits tied to
+file versions turn that context into changes the agent can apply safely.
 
-Funziona con **Python 3.11+ su Linux e WSL**, usando la libreria standard.
-Il motore non richiede un modello, un server o un servizio esterno.
+It works at the agent-tool layer: connect the CLI or JSON interface to your
+workflow, independently of your model or provider. **Python 3.11+ · Linux / WSL ·
+standard library core · no model or server required.**
 
-## Cosa puoi fare
+## See it work
 
-| Esigenza | Flint |
+![Flint compresses JSON, restores its data, edits code and recalls a decision](assets/demo/flint-demo.gif)
+
+The GIF runs real commands on the [included examples](examples/). It shows:
+
+1. **Compress context:** 12 JSON records, already minified, go from **1,226 to
+   499 bytes**, including the format report — **59.3% fewer bytes in this example**.
+2. **Restore the information:** all 12 records and every JSON value are recovered.
+3. **Read and edit code:** open the exact source, then send just the changed line.
+4. **Carry decisions forward:** save a decision and recall it in another call.
+
+These are byte counts for this example, not model token counts or a general
+savings guarantee. [Captured commands and output](assets/demo/recording.json).
+In the GIF, `flint` abbreviates `python3 -S dist/flint.pyz`.
+
+## What Flint does
+
+| Capability | How it helps an agent |
 |---|---|
-| Leggere una parte del codice | Seleziona definizioni Python complete, intervalli o corrispondenze testuali. |
-| Modificare il file corretto | Collega ogni proposta a un ticket di revisione; rifiuta una base diventata obsoleta. |
-| Riprendere un lavoro | Salva decisioni in memoria persistente, con ricerca e storico delle versioni. |
-| Riconoscere fonti cambiate | Le memorie collegate a un file possono essere escluse dal richiamo quando i byte cambiano. |
-| Rileggere file già conosciuti | Restituisce differenze rispetto a una versione completa precedentemente confermata. |
-| Recuperare un originale | Conserva snapshot esatti e riferimenti locali recuperabili. |
-| Preparare il contesto | Assembla fonti e dipendenze dichiarate entro un budget esplicito. |
+| Reversible compression | Represent repeated code, JSON and text more compactly, with explicit decoding. |
+| Exact recovery | Retrieve stored originals and code ranges when the full content is needed. |
+| Focused context | Read complete Python definitions, line ranges or text matches. |
+| Context packing | Assemble selected sources and declared dependencies within a byte budget. |
+| Persistent memory | Store decisions, search them and preserve previous versions. |
+| Source freshness | Exclude memories linked to changed or missing source files. |
+| Revision-bound edits | Apply a change only to the file version the agent read. |
+| Incremental rereads | Return changes against a complete, acknowledged source version. |
 
-## Inizia subito
+Reversible JSON codecs preserve data values; code/text codecs can reconstruct
+exact content. Source views select what to show, while stored originals remain
+recoverable. These are different operations: a selected excerpt is not the
+entire file. Optional prose rewriting is separate from reversible encoding.
 
-Dalla cartella del progetto:
+## Quick start
+
+From the repository directory:
 
 ```bash
 python3 -S dist/flint.pyz --help
 python3 -S dist/flint.pyz --workspace . work open examples/hello.py
 ```
 
-Il pacchetto [flint.pyz](dist/flint.pyz) contiene il motore e le sue risorse.
-Puoi copiarlo vicino al progetto su cui lavora il tuo agente. Per usare i
-sorgenti direttamente è disponibile anche `python3 bin/flint`.
+Copy [flint.pyz](dist/flint.pyz) into your agent's environment, then point
+`--workspace` at the project it should work on. To use the source directly,
+run `python3 bin/flint` with the same arguments.
 
-## Leggi, modifica, recupera
+### Compress and restore JSON
 
-`work open` restituisce il sorgente e un ticket, per esempio `W1 e1 source`.
-Il ticket identifica il file e la sua revisione nel workspace corrente.
-
-Prepara un piano che sostituisca la seconda riga dell'esempio:
-
-```json
-{"edits":[[2,1,"    return f'Ciao, {name}!'\n"]]}
+```bash
+python3 -S dist/flint.pyz encode examples/records.json --format columns --report > packed.txt 2> packed.meta.json
+python3 -S dist/flint.pyz decode packed.txt --format json-columns
 ```
 
-Salvalo come `edit.json` e usa il riferimento restituito dall'apertura:
+This example uses `json-columns`: recurring fields, constant values and numeric
+sequences share a compact representation. For other inputs, use the format
+reported in `packed.meta.json` when decoding. `encode --format auto` selects
+among supported candidates by bytes. Code/text COPY and template formats are
+explicit options; [codec documentation](integrations/skills/flint-context/references/advanced-context.md).
+
+### Edit only what changed
+
+```bash
+python3 -S dist/flint.pyz --workspace . work open examples/hello.py
+```
+
+The result includes a ticket, such as `W1 e1 source`. Save this plan as
+`edit.json` to replace the second line of the example:
+
+```json
+{"edits":[[2,1,"    return f'Hi, {name}!'\n"]]}
+```
 
 ```bash
 python3 -S dist/flint.pyz --workspace . work edit e1 edit.json
-python3 -S dist/flint.pyz --workspace . work show e1
 ```
 
-`e1` è illustrativo: usa sempre il ticket della tua chiamata. `work show`
-recupera il contenuto associato al ticket; una modifica riuscita restituisce
-un nuovo riferimento. Se il file è cambiato nel frattempo, Flint rifiuta la
-scrittura. Una proposta Python con sintassi errata può essere conservata
-come candidato da correggere, mantenendo intatto il file originale.
+Use the ticket returned by your own call; `e1` is an example. Flint refuses the
+write if the source has changed. Successful edits return a new ticket, and
+`work show TICKET` retrieves its content. A Python proposal with invalid syntax
+can remain available for correction while the original file stays intact.
 
-Per un agente che invia JSON:
+For agents sending JSON:
 
 ```bash
 printf '%s\n' '{"op":"open","path":"examples/hello.py"}' |
   python3 -S dist/flint.pyz --workspace . work call
 ```
 
-[Protocollo JSON e ticket](integrations/skills/flint-context/references/work-tickets.md).
+[JSON interface and revision tickets](integrations/skills/flint-context/references/work-tickets.md).
 
-## Memoria che segue il lavoro
-
-Conserva le decisioni e richiamale in una sessione successiva:
+### Remember a decision
 
 ```bash
 python3 -S dist/flint.pyz --workspace . memory remember examples/decisions.txt --key project-decisions
@@ -79,76 +113,63 @@ python3 -S dist/flint.pyz --workspace . memory recall 'project decisions' --budg
 python3 -S dist/flint.pyz --workspace . memory history project-decisions
 ```
 
-Una nuova registrazione della stessa chiave sostituisce la versione corrente,
-conservando lo storico. `memory recover RIFERIMENTO` recupera il testo originale.
-La ricerca è lessicale e restituisce memorie complete entro il budget.
+Writing a changed note under the same key updates the current memory and retains
+its history. `memory recover REFERENCE` retrieves an original. Search is lexical
+and returns complete memories within the byte budget.
 
-Per una memoria che deve essere valida soltanto finché il file rimane identico:
+Add `--track-source` when a memory should only remain current while its source
+file is unchanged. Changed or missing sources are reported as stale and excluded
+from current recall. Read the new source before updating the memory.
 
-```bash
-python3 -S dist/flint.pyz --workspace . memory remember examples/decisions.txt --key tracked-decisions --track-source
-```
+[Memory and sessions](integrations/skills/flint-context/references/memory-wire.md).
 
-Quando il file cambia o scompare, quella versione viene esclusa dai richiami
-correnti e segnalata come obsoleta. Per conoscere il nuovo contenuto serve
-leggere la fonte e aggiornare esplicitamente la memoria.
-
-[Memorie, versioni e sessioni](integrations/skills/flint-context/references/memory-wire.md).
-
-## Contesto mirato
+### Read the relevant code
 
 ```bash
 python3 -S dist/flint.pyz --workspace . map examples/hello.py
 python3 -S dist/flint.pyz --workspace . inspect examples/hello.py greet --editable
 ```
 
-Le selezioni mantengono il codice esatto. I budget sono espressi in byte UTF-8;
-un budget insufficiente viene segnalato, senza presentare un frammento come
-contenuto completo. Dopo una perdita di contesto, avvia una nuova sessione
-e recupera le fonti necessarie prima di modificarle.
+Selections retain exact source. Budgets are UTF-8 bytes. An insufficient budget
+is reported instead of silently returning an incomplete selection. After a
+context reset, start a new session and recover the source needed for the task.
 
-## Più veloce nella versione 0.18
+## Faster in 0.18
 
-Il percorso JSON carica l'editor soltanto quando serve e riduce il lavoro
-iniziale della CLI, mantenendo invariati contenuto e controlli di revisione.
+The JSON path loads the editor only when needed and reduces CLI startup work,
+while keeping responses and revision checks unchanged.
 
-| Operazione JSON sullo stesso file Python | 0.17 | 0.18 | Tempo in meno |
+| JSON operation on the same Python file | 0.17 | 0.18 | Less time |
 |---|---:|---:|---:|
-| Aprire un file | 62,12 ms | **45,64 ms** | **26,5%** |
-| Recuperare il contenuto di un ticket | 66,97 ms | **48,65 ms** | **27,4%** |
-| Applicare una modifica | 103,58 ms | **84,95 ms** | **18,0%** |
+| Open a file | 62.12 ms | **45.64 ms** | **26.5%** |
+| Recover ticket content | 66.97 ms | **48.65 ms** | **27.4%** |
+| Apply an edit | 103.58 ms | **84.95 ms** | **18.0%** |
 
-Mediane locali di 12 esecuzioni per versione e operazione, sullo stesso sistema
-Linux e con lo stesso interprete Python. Su tre input le riduzioni osservate
-sono del **26–30% per lettura e recupero JSON** e del **17–22% per le modifiche**.
-Sono tempi degli strumenti; prestazioni complessive e consumo di token
-dipendono dal lavoro e dall'integrazione dell'agente.
+Medians of 12 runs per version and operation, on the same Linux system and
+Python interpreter. Across three inputs, observed reductions were **26–30% for
+JSON reads/recovery** and **17–22% for edits**. These are tool timings; overall
+agent time and token usage depend on the task and integration.
 
-## Integrazione
+## Integrate and build
 
-Flint è esplicito: l'agente sceglie quando richiamarlo. La
-[skill Flint Context](integrations/skills/flint-context/SKILL.md) descrive
-letture, modifiche, memoria e recupero. I protocolli JSON permettono di
-integrarlo anche senza installare la skill.
+The [Flint Context skill](integrations/skills/flint-context/SKILL.md) explains
+when to read, compress, remember, recover and edit. Agents can also call the
+CLI or JSON interface directly. The agent controls which operations to use.
 
-Lo stato rimane nella cartella `.flint/` del workspace, esclusa da Git.
-I riferimenti sono locali a quel workspace. I codec opzionali per JSON e testo
-ripetuto e il motore C COPY/1 sono descritti nelle
-[operazioni avanzate](integrations/skills/flint-context/references/advanced-context.md).
+Workspace state is stored in `.flint/`, excluded from Git. References belong
+to that workspace. Optional codecs and the C COPY/1 engine are documented in
+[advanced operations](integrations/skills/flint-context/references/advanced-context.md).
 
-## Sorgenti e distribuzione
+- [Python engine](flint/), [CLI](bin/flint) and [ready-to-run package](dist/flint.pyz).
+- [Source hashes and package manifest](dist/manifest.json).
+- [Optional C engine](native/flint_copy.c).
+- [Logo, font and brand assets](assets/preview.html).
 
-- [Motore Python](flint/), [CLI](bin/flint) e [pacchetto pronto](dist/flint.pyz).
-- [Manifest con gli hash dei sorgenti](dist/manifest.json).
-- [Motore C opzionale](native/flint_copy.c).
-- [Logo, font e varianti del marchio](assets/preview.html).
-
-Per ricostruire il pacchetto dai sorgenti, senza scaricare dipendenze:
+Rebuild the package without downloading dependencies:
 
 ```bash
 python3 tools/package.py
 ```
 
-Le attribuzioni e le licenze dei componenti adattati sono conservate in
-`vendor/` e nel pacchetto. Il font Micro 5 include la propria
-[licenza OFL](assets/fonts/OFL.txt).
+Third-party notices and licenses are retained in `vendor/` and in the package.
+Micro 5 includes its [OFL license](assets/fonts/OFL.txt).
